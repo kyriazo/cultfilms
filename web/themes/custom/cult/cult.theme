@@ -1,0 +1,102 @@
+<?php
+
+/**
+ * @file
+ * Cult theme: builds the variables for the landing page.
+ */
+
+/**
+ * Implements hook_preprocess_page().
+ */
+function cult_preprocess_page(array &$variables) {
+  $theme_path = '/' . \Drupal::service('extension.list.theme')->getPath('cult');
+  $base = \Drupal::request()->getBasePath();
+
+  $keys = [
+    'shop_url', 'contact_email', 'instagram_handle', 'instagram_url', 'location',
+    'hero_kicker', 'hero_intro', 'about_text', 'bw_text', 'bw_edge', 'show_strips',
+  ];
+  $settings = [];
+  foreach ($keys as $key) {
+    $settings[$key] = theme_get_setting($key, 'cult');
+  }
+
+  $variables['cult'] = [
+    's' => $settings,
+    'logo_black' => $base . $theme_path . '/images/cult-black.png',
+    'logo_white' => $base . $theme_path . '/images/cult-white.png',
+    'holes' => range(1, 120),
+    'year' => date('Y'),
+  ];
+  $variables['front_url'] = \Drupal\Core\Url::fromRoute('<front>')->toString();
+
+  // Bubble cache metadata so edits to films or settings show immediately.
+  $variables['cult_cache'] = [
+    '#cache' => [
+      'tags' => ['node_list:film', 'node_list', 'config:cult.settings', 'file_list'],
+    ],
+  ];
+
+  if (!\Drupal::service('path.matcher')->isFrontPage()) {
+    return;
+  }
+
+  $variables['cult']['messages'] = ['#type' => 'status_messages'];
+
+  // Films: published "film" nodes, ordered by weight.
+  $films = [];
+  if (\Drupal::entityTypeManager()->hasDefinition('node')
+    && \Drupal::entityTypeManager()->getStorage('node_type')->load('film')) {
+    $storage = \Drupal::entityTypeManager()->getStorage('node');
+    $ids = $storage->getQuery()
+      ->accessCheck(TRUE)
+      ->condition('type', 'film')
+      ->condition('status', 1)
+      ->sort('field_weight', 'ASC')
+      ->sort('created', 'ASC')
+      ->execute();
+    $generator = \Drupal::service('file_url_generator');
+    $i = 0;
+    foreach ($storage->loadMultiple($ids) as $node) {
+      $i++;
+      $image_url = '';
+      $image_alt = $node->label();
+      if (!$node->get('field_label')->isEmpty() && $node->get('field_label')->entity) {
+        $image_url = $generator->generateString($node->get('field_label')->entity->getFileUri());
+        $image_alt = $node->get('field_label')->alt ?: $image_alt;
+      }
+      $shop = '';
+      if (!$node->get('field_shop_url')->isEmpty()) {
+        $shop = $node->get('field_shop_url')->first()->getUrl()->toString();
+      }
+      $body = $node->hasField('body') ? $node->get('body') : NULL;
+      $films[] = [
+        'number' => str_pad((string) $i, 2, '0', STR_PAD_LEFT),
+        'name' => $node->label(),
+        'code' => $node->get('field_code')->value,
+        'description' => !$body || $body->isEmpty() ? '' : [
+          '#type' => 'processed_text',
+          '#text' => $body->value,
+          '#format' => $body->format,
+        ],
+        'iso' => $node->get('field_iso')->value,
+        'balance' => $node->get('field_balance')->value,
+        'exposures' => $node->get('field_exposures')->value,
+        'process' => $node->get('field_process')->value,
+        'price' => $node->get('field_price')->value,
+        'shop_url' => $shop ?: $settings['shop_url'],
+        'image_url' => $image_url,
+        'image_alt' => $image_alt,
+        'edit_url' => $node->access('update') ? $node->toUrl('edit-form')->toString() : '',
+        'reverse' => ($i % 2) === 0,
+      ];
+    }
+  }
+  $variables['cult']['films'] = $films;
+  $variables['cult']['film_count'] = str_pad((string) count($films), 2, '0', STR_PAD_LEFT);
+
+  // B&W signup form.
+  if (\Drupal::moduleHandler()->moduleExists('cult_signup')) {
+    $variables['cult']['signup_form'] = \Drupal::formBuilder()->getForm('Drupal\cult_signup\Form\SignupForm');
+  }
+}

@@ -1,0 +1,12 @@
+name: Cult
+type: theme
+description: 'Cult Films — black & white landing page theme.'
+core_version_requirement: ^10.3 || ^11
+base theme: stable9
+libraries:
+  - cult/global
+regions:
+  header: Header
+  highlighted: Highlighted
+  content: Content
+  footer: Footer

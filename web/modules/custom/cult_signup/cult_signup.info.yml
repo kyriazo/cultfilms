@@ -1,0 +1,6 @@
+name: 'Cult signup'
+type: module
+description: 'Email signup for the black & white film launch, with an admin list and CSV export.'
+package: Cult
+core_version_requirement: ^10.3 || ^11
+configure: cult_signup.admin

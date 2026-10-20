@@ -1,0 +1,23 @@
+<?php
+
+/**
+ * @file
+ * Install file for Cult signup.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function cult_signup_schema() {
+  $schema['cult_signup'] = [
+    'description' => 'Emails signed up for the black & white launch.',
+    'fields' => [
+      'id' => ['type' => 'serial', 'unsigned' => TRUE, 'not null' => TRUE],
+      'email' => ['type' => 'varchar', 'length' => 254, 'not null' => TRUE, 'default' => ''],
+      'created' => ['type' => 'int', 'not null' => TRUE, 'default' => 0],
+    ],
+    'primary key' => ['id'],
+    'unique keys' => ['email' => ['email']],
+  ];
+  return $schema;
+}

@@ -1,0 +1,11 @@
+shop_url: '#films'
+contact_email: 'hello@example.com'
+instagram_handle: '@cultfilms'
+instagram_url: 'https://instagram.com/'
+location: '[City, Country]'
+hero_kicker: '35MM ▸ RESPOOLED MOTION PICTURE FILM'
+hero_intro: 'Cult takes film made for the movies and respools it into 35mm cassettes under our own label. Load it, shoot it, develop it C-41.'
+about_text: 'Motion picture film has a look stills film never quite matches. We bring it to 35mm still cameras by respooling cinema stock into our own cassettes, each with its own name and label. [A line about who you are and where you''re based.]'
+bw_text: 'We''re adding black & white motion picture stock to the Cult line. Leave your email and you''ll hear first when it drops.'
+bw_edge: '[NAME] ▸ [ISO] ▸ [EXP.] ▸ COMING SOON'
+show_strips: true

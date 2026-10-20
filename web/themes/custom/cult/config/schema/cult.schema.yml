@@ -1,0 +1,37 @@
+cult.settings:
+  type: theme_settings
+  label: 'Cult settings'
+  mapping:
+    shop_url:
+      type: string
+      label: 'Shop URL'
+    contact_email:
+      type: string
+      label: 'Contact email'
+    instagram_handle:
+      type: string
+      label: 'Instagram handle'
+    instagram_url:
+      type: string
+      label: 'Instagram URL'
+    location:
+      type: string
+      label: 'Location'
+    hero_kicker:
+      type: string
+      label: 'Hero kicker'
+    hero_intro:
+      type: string
+      label: 'Hero intro'
+    about_text:
+      type: string
+      label: 'About text'
+    bw_text:
+      type: string
+      label: 'B&W text'
+    bw_edge:
+      type: string
+      label: 'B&W edge line'
+    show_strips:
+      type: boolean
+      label: 'Show film-edge strips'

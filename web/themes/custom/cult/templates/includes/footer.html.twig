@@ -1,0 +1,20 @@
+{% set s = cult.s %}
+<footer id="contact" class="footer">
+  {% if s.show_strips %}
+    <div class="strip__holes strip__holes--footer" aria-hidden="true">{% for h in cult.holes %}<span></span>{% endfor %}</div>
+  {% endif %}
+  <div class="wrap footer__inner">
+    <div class="footer__top">
+      <img class="footer__logo" src="{{ cult.logo_white }}" alt="CULT">
+      <div class="footer__cols">
+        <div><div class="mono mono--light2">WRITE TO US</div><a href="mailto:{{ s.contact_email }}">{{ s.contact_email }}</a></div>
+        <div><div class="mono mono--light2">FOLLOW</div><a href="{{ s.instagram_url }}">{{ s.instagram_handle }}</a></div>
+        <div><div class="mono mono--light2">BASED IN</div><div class="footer__v">{{ s.location }}</div></div>
+      </div>
+    </div>
+    <div class="footer__bottom mono mono--light2">
+      <div>© {{ cult.year }} CULT FILMS</div>
+      <div>COLOR NEGATIVE ▸ B&amp;W SOON ▸ 35MM</div>
+    </div>
+  </div>
+</footer>

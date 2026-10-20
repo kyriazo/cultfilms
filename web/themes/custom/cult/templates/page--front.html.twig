@@ -1,0 +1,119 @@
+{#
+/**
+ * @file
+ * Cult Films landing page (front page).
+ * Copy and contact details: Appearance › Cult › Settings.
+ * Films: Content › Film nodes (ordered by "Weight").
+ */
+#}
+{% set s = cult.s %}
+{{ cult_cache }}
+<div class="cult">
+
+  <header class="cult-nav wrap">
+    <a href="#top" class="cult-nav__logo" aria-label="Cult Films home">
+      <img src="{{ cult.logo_black }}" alt="CULT">
+    </a>
+    <nav class="cult-nav__links" aria-label="Main">
+      <a href="#films">Films</a>
+      <a href="#bw">Black &amp; White</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+      <a href="{{ s.shop_url }}" class="btn btn--sm">Shop film</a>
+    </nav>
+  </header>
+
+  {% if cult.messages %}<div class="wrap cult-messages">{{ cult.messages }}</div>{% endif %}
+
+  <section id="top" class="hero wrap">
+    <div class="hero__text">
+      <div class="mono">{{ s.hero_kicker }}</div>
+      <h1 class="hero__title">Cinema stock,<br><strong>in your camera.</strong></h1>
+      <p class="lead">{{ s.hero_intro }}</p>
+      <div class="btn-row">
+        <a href="#films" class="btn">See the films</a>
+        <a href="#bw" class="btn btn--ghost">B&amp;W coming soon</a>
+      </div>
+    </div>
+    <div class="hero__art">
+      {% if cult.films[1] is defined and cult.films[1].image_url %}
+        <img class="hero__card hero__card--back" src="{{ cult.films[1].image_url }}" alt="{{ cult.films[1].image_alt }}">
+      {% endif %}
+      {% if cult.films[0] is defined and cult.films[0].image_url %}
+        <img class="hero__card hero__card--front" src="{{ cult.films[0].image_url }}" alt="{{ cult.films[0].image_alt }}">
+      {% endif %}
+    </div>
+  </section>
+
+  {% if s.show_strips %}
+    <div class="strip" aria-hidden="true">
+      <div class="strip__holes">{% for h in cult.holes %}<span></span>{% endfor %}</div>
+      <div class="strip__code">CULT FILMS ▸ 1 ▸ 1A ▸ 2 ▸ 2A{% for f in cult.films %} ▸ {{ f.name|upper }} {{ f.code }} ▸ {{ loop.index + 2 }} ▸ {{ loop.index + 2 }}A{% endfor %} ▸ PROCESS C-41 ▸ 7 ▸ 7A ▸ 8 ▸ 8A ▸ CULT FILMS ▸ 9 ▸ 9A ▸ 10 ▸ 10A ▸ 11 ▸ 11A</div>
+      <div class="strip__holes">{% for h in cult.holes %}<span></span>{% endfor %}</div>
+    </div>
+  {% endif %}
+
+  <section id="films" class="films wrap">
+    <div class="section-head">
+      <h2 class="h2">The <strong>films</strong></h2>
+      <div class="mono mono--muted">{{ cult.film_count }} STOCKS ▸ COLOR NEGATIVE ▸ 35MM</div>
+    </div>
+
+    {% for f in cult.films %}
+      <article class="film{{ f.reverse ? ' film--reverse' }}">
+        <div class="film__art">
+          {% if f.image_url %}<img src="{{ f.image_url }}" alt="{{ f.image_alt }}">{% endif %}
+        </div>
+        <div class="film__body">
+          <div class="mono mono--muted">NO. {{ f.number }}{% if f.edit_url %} · <a class="film__edit" href="{{ f.edit_url }}">Edit</a>{% endif %}</div>
+          <h3 class="film__title">{{ f.name }} <strong>{{ f.code }}</strong></h3>
+          {% if f.description %}<div class="film__desc">{{ f.description }}</div>{% endif %}
+          <dl class="specs">
+            <div><dt>ISO</dt><dd>{{ f.iso }}</dd></div>
+            <div><dt>BALANCE</dt><dd>{{ f.balance }}</dd></div>
+            <div><dt>EXPOSURES</dt><dd>{{ f.exposures }}</dd></div>
+            <div><dt>PROCESS</dt><dd>{{ f.process }}</dd></div>
+          </dl>
+          <div class="film__buy">
+            {% if f.price %}<div class="film__price">{{ f.price }}</div>{% endif %}
+            <a href="{{ f.shop_url }}" class="btn">Buy {{ f.name }}</a>
+          </div>
+        </div>
+      </article>
+    {% endfor %}
+  </section>
+
+  <section id="bw" class="wrap bw-wrap">
+    <div class="bw">
+      <div class="bw__dark">
+        <div class="mono mono--light">NO. {{ '%02d'|format(cult.films|length + 1) }} ▸ IN THE DARKROOM</div>
+        <div>
+          <div class="bw__big">B&amp;W</div>
+          <div class="bw__sub">Black &amp; White Motion Picture Film</div>
+        </div>
+        <div class="mono mono--light2">{{ s.bw_edge }}</div>
+      </div>
+      <div class="bw__light">
+        <h2 class="h2 h2--sm">Monochrome is <strong>coming.</strong></h2>
+        <p class="lead">{{ s.bw_text }}</p>
+        {{ cult.signup_form }}
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="about">
+    <div class="wrap about__inner">
+      <div class="about__top">
+        <h2 class="h2">We are <strong>cult films.</strong></h2>
+        <p class="lead lead--lg">{{ s.about_text }}</p>
+      </div>
+      <ol class="steps">
+        <li><div class="mono mono--muted">01</div><div class="steps__t">Cinema stock</div><div class="steps__d">We start from film made for motion picture cameras.</div></li>
+        <li><div class="mono mono--muted">02</div><div class="steps__t">Respooled</div><div class="steps__d">Cut and loaded into 35mm cassettes, 24 or 36 exposures.</div></li>
+        <li><div class="mono mono--muted">03</div><div class="steps__t">Shoot &amp; develop</div><div class="steps__d">Use any 35mm camera and develop at your lab, process C-41.</div></li>
+      </ol>
+    </div>
+  </section>
+
+  {% include '@cult/includes/footer.html.twig' %}
+</div>

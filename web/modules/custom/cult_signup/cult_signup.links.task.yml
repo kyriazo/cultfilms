@@ -1,0 +1,5 @@
+cult_signup.admin_tab:
+  route_name: cult_signup.admin
+  base_route: system.admin_content
+  title: 'B&W signups'
+  weight: 20

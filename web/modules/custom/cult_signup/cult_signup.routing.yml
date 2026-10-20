@@ -1,0 +1,14 @@
+cult_signup.admin:
+  path: '/admin/content/bw-signups'
+  defaults:
+    _controller: '\Drupal\cult_signup\Controller\SignupAdminController::list'
+    _title: 'B&W signups'
+  requirements:
+    _permission: 'view cult signups'
+
+cult_signup.export:
+  path: '/admin/content/bw-signups/export'
+  defaults:
+    _controller: '\Drupal\cult_signup\Controller\SignupAdminController::export'
+  requirements:
+    _permission: 'view cult signups'

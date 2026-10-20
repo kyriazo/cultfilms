@@ -1,0 +1,3 @@
+view cult signups:
+  title: 'View B&W signup emails'
+  restrict access: true

@@ -1,0 +1,26 @@
+{#
+/**
+ * @file
+ * Cult: every page other than the front page (film nodes, forms, etc.).
+ */
+#}
+{{ cult_cache }}
+<div class="cult">
+  <header class="cult-nav wrap">
+    <a href="{{ front_url }}" class="cult-nav__logo" aria-label="Cult Films home">
+      <img src="{{ cult.logo_black }}" alt="CULT">
+    </a>
+    <nav class="cult-nav__links" aria-label="Main">
+      <a href="{{ front_url }}#films">Films</a>
+      <a href="{{ front_url }}#bw">Black &amp; White</a>
+      <a href="{{ front_url }}#about">About</a>
+      <a href="#contact">Contact</a>
+      <a href="{{ cult.s.shop_url }}" class="btn btn--sm">Shop film</a>
+    </nav>
+  </header>
+  {% if page.highlighted %}<div class="wrap">{{ page.highlighted }}</div>{% endif %}
+  <main class="wrap page-main">
+    {{ page.content }}
+  </main>
+  {% include '@cult/includes/footer.html.twig' %}
+</div>
